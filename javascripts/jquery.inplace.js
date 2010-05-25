@@ -81,8 +81,6 @@ jQuery.fn.editInPlace = function(options) {
 		textarea_cols:  "25",
 		textarea_rows:  "10",
 		datepicker: '',
-		bg_over: "#ffc",
-		bg_out:  "transparent",
 		saving_text:   "Saving...",
 		saving_image:  "",
 		default_text:  "(Click here to add text)",
@@ -143,11 +141,11 @@ jQuery.fn.editInPlace = function(options) {
 		jQuery(this)
 
 		.mouseover(function(){
-			jQuery(this).css("background", settings.bg_over);
+			jQuery(this).addClass('inplace_hover');
 		})
 
 		.mouseout(function(){
-			jQuery(this).css("background", settings.bg_out);
+			jQuery(this).removeClass('inplace_hover');
 		})
 
 		.click(function(){
