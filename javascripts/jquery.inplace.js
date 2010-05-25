@@ -192,8 +192,15 @@ jQuery.fn.editInPlace = function(options) {
 				jQuery(this).html('<form class="inplace_form" style="display: inline; margin: 0; padding: 0;">' +
 									use_field_type + ' ' + buttons_code + '</form>');
 									
-				if (settings.datepicker == "datepicker"){
-	    			$('#inplace_field').datepicker({ yearRange: '1900:2007', dateFormat: "MM d, yy", defaultDate: new Date(1980, 1 - 1, 1) });
+				if (settings.datepicker == "datepicker")
+				{
+					var datepicker_options = {
+						yearRange: '1900:2007',
+						dateFormat: "MM d, yy",
+						defaultDate: new Date(1980, 1 - 1, 1)
+					}
+				    jQuery.extend(datepicker_options, settings.datepicker_options);
+	    			$('#inplace_field').datepicker(datepicker_options);
 				}				
 
 			}//END- if(!editing) -END
