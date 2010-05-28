@@ -73,7 +73,7 @@ module InPlaceMacrosHelper
     base_id = nil
     class_name = "in_place_editor_field"
     tag_options = {:tag => "span", :class => class_name}.merge!(tag_options)
-    if object.respond_to?(:id)
+    if object and object.respond_to?(:id)
       base_id = object.id
       tag_options[:id] = "#{object.class.to_s.downcase}_#{method}_#{base_id}_in_place_editor"
       field_html = content_tag(tag_options.delete(:tag), 
