@@ -12,6 +12,8 @@ Added datepicker options hash:
 
 Instead of using bg_over/bg_out color, a CSS class inplace_hover is used
 
+Now select_options accept jsoned array of arrays for options values
+
 Changelog against fork master:
 ====================
 
