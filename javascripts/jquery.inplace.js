@@ -206,8 +206,10 @@ jQuery.fn.editInPlace = function(options) {
 						dateFormat: "MM d, yy",
 						defaultDate: new Date(1980, 1 - 1, 1)
 					}
-				    jQuery.extend(datepicker_options, settings.datepicker_options);
-	    			$('#inplace_field').datepicker(datepicker_options);
+					jQuery.extend(datepicker_options, $.datepicker.regional['']);
+					jQuery.extend(datepicker_options, $.datepicker.regional[settings.datepicker_options.locale]);
+					jQuery.extend(datepicker_options, settings.datepicker_options);
+					$('#inplace_field').datepicker(datepicker_options);
 				}				
 
 			}//END- if(!editing) -END
