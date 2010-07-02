@@ -175,11 +175,18 @@ jQuery.fn.editInPlace = function(options) {
 				}
 				else if(settings.field_type == "select")
 				{
-					var optionsArray = settings.select_options.split(',');
+					var optionsArray = settings.select_options;
+					if (typeof optionsArray == 'string')
+					{
+					  optionsArray = optionsArray.split(',');
+				    }
 					var use_field_type = '<select name="inplace_value" class="inplace_field"><option value="">' + 
 																settings.select_text + '</option>';
 						for(var i=0; i<optionsArray.length; i++){
-							var optionsValuesArray = optionsArray[i].split(':');
+							var optionsValuesArray = optionsArray[i]
+							if (typeof optionsValuesArray == 'string'){
+							  optionsValuesArray = optionsValuesArray.split(':');
+							}
 							var use_value = optionsValuesArray[1] || optionsValuesArray[0];
 							var selected = use_value == original_html ? 'selected="selected" ' : '';
 							use_field_type += '<option ' + selected + 'value="' + use_value.trim().escape_html() + '">' + 
