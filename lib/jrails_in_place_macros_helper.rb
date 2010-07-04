@@ -51,7 +51,8 @@ module InPlaceMacrosHelper
     elsif select_options.is_a?(Array)
       select_options = "'" + select_options.join(',') + "'"
     end  
-    js_options['select_options'] = select_options if js_options['field_type'].to_s == "'select'"
+    js_options['select_options'] = select_options if options[:field_type].to_s == 'select'
+    js_options['selected_value'] = "'" + options[:selected_value] + "'" if options[:field_type].to_s == 'select' and options[:selected_value]
     js_options['textarea_cols'] = (options[:textarea_cols] || 25).to_i if options[:field_type].to_s == 'textarea'
     js_options['textarea_rows'] = (options[:textarea_rows] || 10).to_i if options[:field_type].to_s == 'textarea'
     js_options['datepicker'] = "'" + options[:datepicker].to_s + "'" if options[:datepicker]
@@ -74,6 +75,7 @@ module InPlaceMacrosHelper
   end
   
   # Renders the value of the specified object and method with in-place editing capabilities.
+  #
   def in_place_editor_field(object, method, tag_options = {}, in_place_editor_options = {})
     field_html = nil
     base_id = nil
@@ -82,8 +84,19 @@ module InPlaceMacrosHelper
     if object and object.respond_to?(:id)
       base_id = object.id
       tag_options[:id] = "#{object.class.to_s.downcase}_#{method}_#{base_id}_in_place_editor"
-      field_html = content_tag(tag_options.delete(:tag), 
-        h(object.__send__(method)), tag_options)
+
+      value = object.__send__(method)
+      # try to map <select> displayed value from "select_options"
+      if in_place_editor_options[:field_type].to_s == 'select'
+        in_place_editor_options[:selected_value] = value
+        select_options = in_place_editor_options[:select_options]
+        if select_options.is_a?(Array) and select_options[0].is_a?(Array)
+          mapped_value = select_options.find{|e| e[1] == value }
+          value = mapped_value[0] if mapped_value
+        end
+      end
+
+      field_html = content_tag(tag_options.delete(:tag), h(value), tag_options)
     else
       tag = ::ActionView::Helpers::InstanceTag.new(object, method, self)
       base_id = tag.object.id

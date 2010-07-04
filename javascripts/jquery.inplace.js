@@ -51,7 +51,11 @@
   * @param String  options[url]					POST URL to send edited content
   * @param String  options[params]				paramters sent via the post request to the server; string; ex: name=dave&last_name=hauenstein
   * @param String  options[field_type]			can be: text, textarea, select; default: text
-  * @param String  options[select_options]		this is a string seperated by commas for the dropdown options, if field_type is dropdown
+  * @param String  options[select_options]		this is a string seperated by commas for the dropdown options.
+  *                                             Each option's value:name are separated by colon.
+  * @param Array   options[select_options]		Optionally, this could be a json Array of tuples: [[name1, value1], [name2, value2], ...]
+  * @param String  options[selected_value]      within select tag, this is the currently selected option.
+  *                                             Default is fields' current value
   * @param String  options[textarea_cols]		number of columns textarea will have, if field_type is textarea; default: 25
   * @param String  options[textarea_rows]		number of rows textarea will have, if field_type is textarea; default: 10
   * @param String  options[bg_over]				background color of editable elements on HOVER
@@ -175,6 +179,7 @@ jQuery.fn.editInPlace = function(options) {
 				}
 				else if(settings.field_type == "select")
 				{
+					var selected_value = settings.selected_value || original_html;
 					var optionsArray = settings.select_options;
 					if (typeof optionsArray == 'string')
 					{
@@ -188,7 +193,7 @@ jQuery.fn.editInPlace = function(options) {
 							  optionsValuesArray = optionsValuesArray.split(':');
 							}
 							var use_value = optionsValuesArray[1] || optionsValuesArray[0];
-							var selected = use_value == original_html ? 'selected="selected" ' : '';
+							var selected = use_value == selected_value ? 'selected="selected" ' : '';
 							use_field_type += '<option ' + selected + 'value="' + use_value.trim().escape_html() + '">' + 
 												optionsValuesArray[0].trim().escape_html() + '</option>';
                         }
