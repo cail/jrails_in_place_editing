@@ -82,6 +82,7 @@ jQuery.fn.editInPlace = function(options) {
 		method: "POST",
 		field_type: "text",
 		select_options: "",
+		select_choose_option: true,
 		textarea_cols:  "25",
 		textarea_rows:  "10",
 		datepicker: '',
@@ -184,10 +185,12 @@ jQuery.fn.editInPlace = function(options) {
 					if (typeof optionsArray == 'string')
 					{
 					  optionsArray = optionsArray.split(',');
-				    }
-					var use_field_type = '<select name="inplace_value" class="inplace_field"><option value="">' + 
-																settings.select_text + '</option>';
-						for(var i=0; i<optionsArray.length; i++){
+				  }
+					var use_field_type = '<select name="inplace_value" class="inplace_field">';
+					if(settings.select_choose_option) {
+					  use_field_type += '<option value="">' + settings.select_text + '</option>'
+					}
+					for(var i=0; i<optionsArray.length; i++){
 							var optionsValuesArray = optionsArray[i]
 							if (typeof optionsValuesArray == 'string'){
 							  optionsValuesArray = optionsValuesArray.split(':');
@@ -309,6 +312,15 @@ jQuery.fn.editInPlace = function(options) {
    							// put a marker as text in the original element
 								var new_text = html || settings.default_text;
 
+                if(settings.select_options instanceof Array && settings.select_options[0] instanceof Array){
+                  for(var i = 0; i < settings.select_options.length; i++){
+                    if (new_text == settings.select_options[i][1]){
+                      new_text = settings.select_options[i][0]
+                      break;
+                    }
+                  }
+                }
+                
 								// put the newly updated info into the original element
 								original_element.html(new_text);
 								if (settings.success) settings.success(html, original_element);

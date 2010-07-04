@@ -52,6 +52,7 @@ module InPlaceMacrosHelper
       select_options = "'" + select_options.join(',') + "'"
     end  
     js_options['select_options'] = select_options if options[:field_type].to_s == 'select'
+    js_options['select_choose_option'] = options[:select_choose_option] == false ? 'false' : 'true'
     js_options['selected_value'] = "'" + options[:selected_value] + "'" if options[:field_type].to_s == 'select' and options[:selected_value]
     js_options['textarea_cols'] = (options[:textarea_cols] || 25).to_i if options[:field_type].to_s == 'textarea'
     js_options['textarea_rows'] = (options[:textarea_rows] || 10).to_i if options[:field_type].to_s == 'textarea'
